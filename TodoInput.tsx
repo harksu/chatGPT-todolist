@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "styled-components";
 
 interface Todo {
   id: number;
@@ -15,7 +16,7 @@ const TodoInput: React.FC<{ onAddTodo: (todo: Todo) => void }> = ({
     setNewTodo(event.target.value);
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && newTodo.trim() !== "") {
       const todo: Todo = { id: idCounter, task: newTodo };
       onAddTodo(todo);
@@ -25,11 +26,11 @@ const TodoInput: React.FC<{ onAddTodo: (todo: Todo) => void }> = ({
   };
 
   return (
-    <input
+    <Input
       type="text"
       value={newTodo}
       onChange={handleInputChange}
-      onKeyPress={handleKeyPress}
+      onKeyDown={handleKeyDown}
       placeholder="Add a new todo"
     />
   );
