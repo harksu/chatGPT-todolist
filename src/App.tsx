@@ -22,6 +22,12 @@ const TodoList: React.FC = () => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleAddTodo();
+    }
+  };
+
   return (
     <Container>
       <Title>Todo List</Title>
@@ -29,6 +35,7 @@ const TodoList: React.FC = () => {
         type="text"
         value={newTodo}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         placeholder="Add a new todo"
       />
       <Button onClick={handleAddTodo}>Add Todo</Button>
