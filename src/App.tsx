@@ -30,7 +30,7 @@ const TodoList: React.FC = () => {
 
   return (
     <Container>
-      <Title>Todo List</Title>
+      <Title>My Todo List</Title>
       <Input
         type="text"
         value={newTodo}
@@ -52,45 +52,62 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px;
+  background-color: #1a1a2e;
+  color: #f2f2f2;
+  min-height: 100vh;
 `;
 
 const Title = styled.h1`
   font-size: 36px;
-  margin-top: 50px;
+  margin-bottom: 30px;
+  font-family: "Montserrat", sans-serif;
 `;
 
 const Input = styled.input`
-  font-size: 16px;
-  padding: 10px;
-  margin-top: 20px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 18px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  &::placeholder {
+    color: #b3b3b3;
+  }
 `;
 
 const Button = styled.button`
-  font-size: 16px;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #008cba;
-  color: #fff;
+  font-size: 18px;
+  padding: 15px 20px;
+  background-color: #7f5af0;
+  color: #f2f2f2;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background-color: #006a9d;
+    background-color: #6c47d5;
   }
 `;
 
 const TodoItems = styled.ul`
   list-style: none;
-  margin-top: 20px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 `;
 
 const TodoItem = styled.li`
-  font-size: 18px;
+  font-size: 24px;
   margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  color: #1a1a2e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 `;
 
 export default TodoList;
