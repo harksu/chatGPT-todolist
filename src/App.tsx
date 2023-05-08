@@ -28,6 +28,11 @@ const TodoList: React.FC = () => {
     }
   };
 
+  const handleDeleteTodo = (id: number) => {
+    const filteredTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(filteredTodos);
+  };
+
   return (
     <Container>
       <Title>My Todo List</Title>
@@ -41,7 +46,12 @@ const TodoList: React.FC = () => {
       <Button onClick={handleAddTodo}>Add Todo</Button>
       <TodoItems>
         {todos.map((todo) => (
-          <TodoItem key={todo.id}>{todo.task}</TodoItem>
+          <Todo key={todo.id}>
+            <TodoText>{todo.task}</TodoText>
+            <DeleteButton onClick={() => handleDeleteTodo(todo.id)}>
+              Delete
+            </DeleteButton>
+          </Todo>
         ))}
       </TodoItems>
     </Container>
@@ -100,14 +110,33 @@ const TodoItems = styled.ul`
   width: 100%;
 `;
 
-const TodoItem = styled.li`
+const Todo = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 24px;
   margin-bottom: 10px;
   border-radius: 5px;
   padding: 10px;
-  background-color: #f2f2f2;
-  color: #1a1a2e;
+`;
+const TodoText = styled.span`
+  font-size: 24px;
+  margin-right: 10px;
+`;
+
+const DeleteButton = styled.button`
+  font-size: 18px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background-color: #d32f2f;
+  }
 `;
 
 export default TodoList;

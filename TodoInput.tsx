@@ -1,39 +1,44 @@
-import React, { useState } from "react";
-import Input from "styled-components";
+const TodoItem = styled.li`
+  font-size: 24px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  color: #1a1a2e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-interface Todo {
-  id: number;
-  task: string;
-}
+const DeleteButton = styled.button`
+  font-size: 18px;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
-const TodoInput: React.FC<{ onAddTodo: (todo: Todo) => void }> = ({
-  onAddTodo,
-}) => {
-  const [newTodo, setNewTodo] = useState("");
-  const [idCounter, setIdCounter] = useState(1);
+  &:hover {
+    background-color: #c0392b;
+  }
+`;
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo(event.target.value);
-  };
+const TodoItemText = styled.span`
+  margin-right: 20px;
+`;
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && newTodo.trim() !== "") {
-      const todo: Todo = { id: idCounter, task: newTodo };
-      onAddTodo(todo);
-      setNewTodo("");
-      setIdCounter(idCounter + 1);
-    }
+const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
+  const handleDeleteTodo = () => {
+    setTodos(todos.filter((t) => t.id !== todo.id));
   };
 
   return (
-    <Input
-      type="text"
-      value={newTodo}
-      onChange={handleInputChange}
-      onKeyDown={handleKeyDown}
-      placeholder="Add a new todo"
-    />
+    <TodoItem>
+      <TodoItemText>{todo.task}</TodoItemText>
+      <DeleteButton onClick={handleDeleteTodo}>Delete</DeleteButton>
+    </TodoItem>
   );
 };
-
-export default TodoInput;
