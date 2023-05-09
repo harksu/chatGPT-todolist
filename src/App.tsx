@@ -9,6 +9,7 @@ interface Todo {
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodo(event.target.value);
@@ -33,6 +34,25 @@ const TodoList: React.FC = () => {
     setTodos(filteredTodos);
   };
 
+  const handleEditTodo = (todo: Todo) => {
+    setEditingTodo(todo);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingTodo(null);
+  };
+
+  const handleUpdateTodo = (id: number, newTask: string) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, task: newTask };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+    setEditingTodo(null);
+  };
+
   return (
     <Container>
       <Title>My Todo List</Title>
@@ -47,10 +67,38 @@ const TodoList: React.FC = () => {
       <TodoItems>
         {todos.map((todo) => (
           <Todo key={todo.id}>
-            <TodoText>{todo.task}</TodoText>
-            <DeleteButton onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </DeleteButton>
+            {editingTodo?.id === todo.id ? (
+              <>
+                <EditInput
+                  type="text"
+                  defaultValue={todo.task}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      handleUpdateTodo(
+                        todo.id,
+                        (event.target as HTMLInputElement).value
+                      );
+                    } else if (event.key === "Escape") {
+                      handleCancelEdit();
+                    }
+                  }}
+                  autoFocus
+                />
+                <CancelButton onClick={handleCancelEdit}>Cancel</CancelButton>
+              </>
+            ) : (
+              <>
+                <TodoText>{todo.task}</TodoText>
+                <ButtonsWrapper>
+                  <EditButton onClick={() => handleEditTodo(todo)}>
+                    Edit
+                  </EditButton>
+                  <DeleteButton onClick={() => handleDeleteTodo(todo.id)}>
+                    Delete
+                  </DeleteButton>
+                </ButtonsWrapper>
+              </>
+            )}
           </Todo>
         ))}
       </TodoItems>
@@ -119,6 +167,7 @@ const Todo = styled.li`
   border-radius: 5px;
   padding: 10px;
 `;
+
 const TodoText = styled.span`
   font-size: 24px;
   margin-right: 10px;
@@ -136,6 +185,55 @@ const DeleteButton = styled.button`
 
   &:hover {
     background-color: #d32f2f;
+  }
+`;
+
+const EditInput = styled.input`
+  font-size: 18px;
+  padding: 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  &::placeholder {
+    color: #b3b3b3;
+  }
+`;
+
+const CancelButton = styled.button`
+  font-size: 18px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const EditButton = styled.button`
+  font-size: 18px;
+  padding: 10px 15px;
+  background-color: #7f5af0;
+  color: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  margin-right: 10px;
+
+  &:hover {
+    background-color: #6c47d5;
   }
 `;
 
