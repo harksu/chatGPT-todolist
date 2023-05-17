@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-interface Todo {
+interface TodoInterface {
   id: number;
   task: string;
 }
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<TodoInterface[]>([]);
   const [newTodo, setNewTodo] = useState("");
-  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [editingTodo, setEditingTodo] = useState<TodoInterface | null>(null);
 
   useEffect(() => {
     const storedTodos = localStorage.getItem("todos");
@@ -28,7 +28,7 @@ const TodoList: React.FC = () => {
 
   const handleAddTodo = () => {
     if (newTodo.trim() !== "") {
-      const todo: Todo = { id: Date.now(), task: newTodo };
+      const todo: TodoInterface = { id: Date.now(), task: newTodo };
       setTodos([...todos, todo]);
       setNewTodo("");
     }
@@ -45,7 +45,7 @@ const TodoList: React.FC = () => {
     setTodos(filteredTodos);
   };
 
-  const handleEditTodo = (todo: Todo) => {
+  const handleEditTodo = (todo: TodoInterface) => {
     setEditingTodo(todo);
   };
 
